@@ -1,0 +1,20 @@
+apply plugin: 'java'
+
+// 因为依赖 com.android.support:support-annotations 需要添加这几段话
+def logger = new com.android.build.gradle.internal.LoggerWrapper(project.logger)
+def sdkHandler = new com.android.build.gradle.internal.SdkHandler(project, logger)
+for (File file : sdkHandler.sdkLoader.repositories) {
+    repositories.maven {
+        url = file.toURI()
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.google.auto.service:auto-service:1.0-rc2'
+    compile 'com.squareup:javapoet:1.7.0'
+    compile project(path: ':butter-annotations')
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
